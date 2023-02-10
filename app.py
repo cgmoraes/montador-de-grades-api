@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 
-CORS(app, origins=['https://montador-de-grades-upfpc35ezq-uc.a.run.app'])
+CORS(app, origins=['https://montador-de-grades-upfpc35ezq-uc.a.run.app', 'http://localhost:5173/'])
 
 ucs = Modeling()
 

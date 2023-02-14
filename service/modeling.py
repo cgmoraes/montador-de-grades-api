@@ -21,18 +21,6 @@ class Modeling():
         # Lendo os arquivos csv como dataframe do pandas e atribuindo-os ao objeto
         self.ucs = pd.DataFrame(pd.read_csv("ucs.csv", encoding="utf-8", sep=";"))
 
-        # Agrupando as UCs por nome, turma e professores e contando os dias em que cada uma ocorre
-        # atribuindo um novo ID para cada grupo
-        gp_ucs = self.ucs.groupby(["NOME", "TURMA", "PROFESSORES"], as_index=False)["DIA"].count()
-        gp_ucs = gp_ucs.sort_values(by=["NOME"]).reset_index()
-        gp_ucs["ID"] = gp_ucs.index
-
-        # Juntando o dataframe original com a coluna ID gerada
-        self.ucs = self.ucs.merge(gp_ucs[["ID", "NOME", "TURMA", "PROFESSORES"]], on=["NOME", "TURMA", "PROFESSORES"], how="outer")
-
-        # Realiza o cast da coluna ID para inteiro
-        self.ucs["ID"] = self.ucs["ID"].astype("int64")
-
     # Método privado para converter um dataframe para um dicionário de registros
     def _df_to_dict(df):
         return df.to_dict("records")

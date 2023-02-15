@@ -19,23 +19,19 @@ class Modeling():
         blob.download_to_filename(file_name)
 
         # Lendo os arquivos csv como dataframe do pandas e atribuindo-os ao objeto
-        self.ucs = pd.DataFrame(pd.read_csv("ucs.csv", encoding="utf-8", sep=";", keep_default_na=False))
-
-    # Método privado para converter um dataframe para um dicionário de registros
-    def _df_to_dict(df):
-        return df.to_dict("records")
+        self.ucs = pd.DataFrame(pd.read_csv(file_name, encoding="utf-8", sep=";", keep_default_na=False))
 
     # Método privado para agrupar os dados pela chave ID, NOME, TURMA e PROFESSORES, e juntar as listas de dias e horários
-    def _group_by(df):
+    def __group_by(self, df):
         return df.groupby(["ID", "NOME", "TURMA", "PROFESSORES"], as_index=False).\
-        agg({"DIA":lambda x: list(x), "HORARIO":lambda x: list(x)})
+        agg({"DIA":list, "HORARIO":list})
 
     def get_ucs(self):
         # Retorna um dicionário gerado a partir de self.ucs agrupado por ID, NOME, TURMA e PROFESSORES, 
         # e juntar as listas de dias e horários
-        return Modeling._df_to_dict(Modeling._group_by(self.ucs))
+        return (self.__group_by(self.ucs)).to_dict("records")
 
-    def uc_analizer(self, data):
+    def uc_analyzer(self, data):
         # Se não houver dados, retorna a lista completa de UCs em self.ucs
         if not len(data): pre_result = self.ucs
         else:
@@ -58,4 +54,4 @@ class Modeling():
             pre_result = self.ucs[~self.ucs["ID"].isin(list_result)]
         
         # Retorna o resultado agrupado como dicionário aplicado em pre_result
-        return Modeling._df_to_dict(Modeling._group_by(pre_result))
+        return (self.__group_by(pre_result)).to_dict("records")

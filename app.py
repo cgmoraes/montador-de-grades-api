@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 # Ativa a política de CORS para permitir requisições de outros domínios.
-CORS(app)
+CORS(app, origins={"https://montadordegrades.online/"})
 
 # Cria uma instância da classe Modeling para processar os dados da API.
 ucs = Modeling()
@@ -24,15 +24,16 @@ class Grade():
     # Rota "/disciplinas" - rota para adicionar uma nova disciplina, utilizando o método POST.
     @app.route("/disciplinas", methods=['POST'])
     def post():
+
         # Obtém os dados do objeto JSON enviado na requisição POST.
         data = request.get_json()
 
         # Chama o método uc_analizer da instância da classe Modeling e passa o objeto JSON com as informações da disciplina.
-        return ucs.uc_analizer(data['items'])
+        return ucs.uc_analyzer(data['items'])
 
 # Verifica se este arquivo é o arquivo principal que está sendo executado.
 if __name__ == '__main__':
     # Executa a aplicação Flask com o método run(). 
     # O servidor é iniciado na porta especificada, que é a porta definida na variável de ambiente "PORT", ou a porta 8080 caso essa variável não esteja definida.
     # O modo de depuração é ativado para facilitar o desenvolvimento e depuração da aplicação.
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", "8080")))
+    app.run(host="0.0.0.0", port=8080)

@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 # Ativa a política de CORS para permitir requisições de outros domínios.
-CORS(app, origins={"https://montador-de-grades-upfpc35ezq-uc.a.run.app/"})
+CORS(app)
 
 # Cria uma instância da classe Modeling para processar os dados da API.
 ucs = Modeling()

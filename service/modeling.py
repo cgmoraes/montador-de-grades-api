@@ -40,17 +40,22 @@ class Modeling():
         if not len(data): pre_result = self.ucs
         else:
             # Seleciona as UCs presentes em data
-            data = list(self.ucs.loc[self.ucs["ID"].isin(data), "NOME"].unique())
-            # Seleciona os dias e horários de cada UC em data
-            sub_ucs = self.ucs.loc[self.ucs["NOME"].isin(data), ["DIA", "HORARIO"]]
-            
-            # Combina sub_ucs com self.ucs pelos IDs das UCs, preservando todas as linhas
-            sub_ucs = self.ucs.merge(sub_ucs, how='outer', indicator=True)
-            
-            # Seleciona a lista de IDs de UCs presentes em sub_ucs e não presentes em data
-            list_result = sub_ucs.loc[sub_ucs["_merge"] == "both", "ID"].unique()
+            sub_ucs = self.ucs.loc[self.ucs["ID"].isin(data), ["NOME", "DIA", "HORARIO"]]
+            # Gera uma lista com nome das UCs em data
+            uc_names = list(sub_ucs["NOME"].unique())
+
+            # Combina sub_ucs com self.ucs pelos DIA e HORARIO das UCs, trazendo todas as disciplinas
+            # que apresentam conflito de dia e horário com as UCs selecionadas em data
+            sub_ucs = self.ucs.merge(sub_ucs[["DIA", "HORARIO"]], how='outer', indicator=True)
+
+            # Cria uma lista com os IDs das UCs selecionadas em data
+            list_result = list(sub_ucs.loc[sub_ucs["NOME"].isin(uc_names), "ID"].unique())
+
+            # Adiciona à lista os IDs das UCs que tiveram os conflitos mencionados
+            list_result += list(sub_ucs.loc[sub_ucs["_merge"] == "both", "ID"].unique())
+
             # Filtra self.ucs pelos IDs que não estão em list_result
             pre_result = self.ucs[~self.ucs["ID"].isin(list_result)]
         
-        # Retorna o resultado agrupado como dicionário aplicada em pre_result
+        # Retorna o resultado agrupado como dicionário aplicado em pre_result
         return Modeling._df_to_dict(Modeling._group_by(pre_result))

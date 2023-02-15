@@ -71,7 +71,7 @@ POST /disciplinas
   ]
 }
 ```
-Com isso, o endopoint deve retornar um json semelhante ao exemplo de resposta do GET, porém somentes com as disciplinas cujo IDs não estavam inclusos na lista inserida no dicionário na requisição.
+Com isso, o endopoint deve retornar um json semelhante ao exemplo de resposta do GET, porém somente com as disciplinas cujo IDs não estavam inclusos na lista inserida no dicionário na requisição.
 
-# Rodando a API
+## Rodando a API
 A API trabalha em conjunto com o projeto [montador-de-grade](https://github.com/vpedrota/montador-de-grades), executa utilizando os serviços da [GCP](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwiSvZzZhZb9AhWIQUgAHTcgBeUYABABGgJjZQ&ohost=www.google.com&cid=CAESbOD2udtgUB7t_UtjTlNaddbAL5IbF1WWHLsPG0Zuc3fnq0Oje6TUJGdeyp4Q3tHFRwApPeQ2Fajm5FZ__HFIwaO2vJG-V2cAgCe8liM0dgiBwS2uVZS_WzYIw-wlRiWErAIjsn4hFrQ3FY7QGA&sig=AOD64_3yvHegme8lXDnEgTHI7YAmXgA0dA&q&adurl&ved=2ahUKEwi67pTZhZb9AhUGqpUCHav3ATEQ0Qx6BAgJEAE) e está disponível no seguinte endereço: https://montadordegrades.online/.

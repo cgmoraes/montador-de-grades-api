@@ -19,7 +19,7 @@ class Modeling():
         blob.download_to_filename(file_name)
 
         # Lendo os arquivos csv como dataframe do pandas e atribuindo-os ao objeto
-        self.ucs = pd.DataFrame(pd.read_csv("ucs.csv", encoding="utf-8", sep=";"))
+        self.ucs = pd.DataFrame(pd.read_csv("ucs.csv", encoding="utf-8", sep=";", keep_default_na=False))
 
     # Método privado para converter um dataframe para um dicionário de registros
     def _df_to_dict(df):
